@@ -13,8 +13,32 @@ class RestaurantsController < ApplicationController
 
   def create
     @restaurant = Restaurant.new(restaurant_params)
-    @restaurant.save
+    if @restaurant.save
+      redirect_to @restaurant
+    else
+      render :new
+    end
+  end
+
+  def destroy
+    @restaurant = Restaurant.find(params[:id])
+    @restaurant.destroy
+
+    # no need for app/views/restaurants/destroy.html.erb
     redirect_to restaurants_path
+  end
+
+
+  def edit
+    @restaurant = Restaurant.find(params[:id])
+  end
+
+  def update
+    @restaurant = Restaurant.find(params[:id])
+    @restaurant.update(restaurant_params)
+
+    # no need for app/views/restaurants/update.html.erb
+    redirect_to restaurant_path(@restaurant)
   end
 
   private
